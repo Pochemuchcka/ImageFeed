@@ -24,10 +24,6 @@ final class ProfileViewController: UIViewController {
         imageView.tintColor = .gray
         imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
-        imageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         
         let labelName = UILabel()
         labelName.text = "Екатерина Новикова"
@@ -35,8 +31,6 @@ final class ProfileViewController: UIViewController {
         labelName.font = UIFont.systemFont(ofSize: 23)
         labelName.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(labelName)
-        labelName.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8).isActive = true
-        labelName.leadingAnchor.constraint(equalTo: imageView.leadingAnchor).isActive = true
         
         let labelNickname = UILabel()
         labelNickname.text = "@ekaterina_nov"
@@ -44,8 +38,6 @@ final class ProfileViewController: UIViewController {
         labelNickname.font = UIFont.systemFont(ofSize: 13)
         labelNickname.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(labelNickname)
-        labelNickname.topAnchor.constraint(equalTo: labelName.bottomAnchor, constant: 8).isActive = true
-        labelNickname.leadingAnchor.constraint(equalTo: imageView.leadingAnchor).isActive = true
         
         let labelStatus = UILabel()
         labelStatus.text = "Hello World!"
@@ -53,9 +45,6 @@ final class ProfileViewController: UIViewController {
         labelStatus.font = UIFont.systemFont(ofSize: 13)
         labelStatus.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(labelStatus)
-        labelStatus.topAnchor.constraint(equalTo: labelNickname.bottomAnchor, constant: 8).isActive = true
-        labelStatus.leadingAnchor.constraint(equalTo: imageView.leadingAnchor).isActive = true
-        
         
         let button = UIButton.systemButton(
             with: UIImage(systemName: "ipad.and.arrow.forward")!,
@@ -65,8 +54,21 @@ final class ProfileViewController: UIViewController {
         button.tintColor = .red
         button.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(button)
-        button.trailingAnchor.constraint(equalTo:view.safeAreaLayoutGuide.trailingAnchor,constant: -26).isActive = true
-        button.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
+        
+        NSLayoutConstraint.activate([
+            imageView.heightAnchor.constraint(equalToConstant: 70),
+            imageView.widthAnchor.constraint(equalToConstant: 70),
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
+            imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            labelName.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
+            labelName.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
+            labelNickname.topAnchor.constraint(equalTo: labelName.bottomAnchor, constant: 8),
+            labelNickname.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
+            labelStatus.topAnchor.constraint(equalTo: labelNickname.bottomAnchor, constant: 8),
+            labelStatus.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
+            button.trailingAnchor.constraint(equalTo:view.safeAreaLayoutGuide.trailingAnchor,constant: -26),
+            button.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
+        ])
     }
     
     @objc
