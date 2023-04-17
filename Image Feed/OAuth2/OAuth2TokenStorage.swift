@@ -4,17 +4,19 @@
 //
 //  Created by Влад on 29.03.2023.
 //
-
 import Foundation
+import SwiftKeychainWrapper
 
 final class OAuth2TokenStorage {
-    private var authToken: String = ""
+    
+    let accessToken = "token"
     var token: String? {
         get {
-            return UserDefaults.standard.string(forKey: authToken)
+            KeychainWrapper.standard.string(forKey: accessToken)
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: authToken)
+            guard let newValue else { return }
+            KeychainWrapper.standard.set(newValue, forKey: accessToken)
         }
     }
 }
