@@ -72,6 +72,10 @@ final class ProfileViewController: UIViewController {
     }
     
     private func applyConstraints() {
+        avatar.layer.masksToBounds = true
+        avatar.backgroundColor = .clear
+        avatar.layer.cornerRadius = 35
+        avatar.contentMode = .scaleAspectFill
         NSLayoutConstraint.activate([
             avatar.widthAnchor.constraint(equalToConstant: 70),
             avatar.heightAnchor.constraint(equalToConstant: 70),
@@ -101,8 +105,7 @@ final class ProfileViewController: UIViewController {
             let profileImageURL = profileImageService.profileImageURL,
             let url = URL(string: profileImageURL)
         else { return }
-        let processor = RoundCornerImageProcessor(cornerRadius: 61)
-        avatar.kf.setImage(with: url, options: [.processor(processor)])
+        avatar.kf.setImage(with: url)
     }
     
     //MARK: - Lifecycle

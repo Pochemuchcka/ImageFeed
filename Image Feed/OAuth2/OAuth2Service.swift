@@ -10,22 +10,21 @@ import Foundation
 final class OAuth2Service {
     
     static let shared = OAuth2Service()
-    //TODO: Рекомендация по код-ревью 10 спринт: Раз это синглтон, то давай добавим приватный конструктор private init() {} (вернуться после изучения темы синглтонов)
-    
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private var lastCode: String?
+    private var storage: String?
     
     private (set) var authToken: String? {
         get {
-            return OAuth2TokenStorage().token
+            return storage
         }
         set {
             guard let newValue = newValue else { return }
-            OAuth2TokenStorage().token = newValue
+            storage = newValue
         } }
     
-    func fetchOAuthToken( // Получает 'code' на вход и используя его делает POST запрос с параметрами из API
+    func fetchOAuthToken(
         _ code: String,
         completion: @escaping (Result<String, Error>) -> Void) {
             assert(Thread.isMainThread)
@@ -46,13 +45,13 @@ final class OAuth2Service {
                 }
             }
             self.task = task
-            task.resume() //После код ревью 10 спринт убран дублирующий вызов task.resume при создании таски на 124 строке
+            task.resume()
         }
 }
 
 extension OAuth2Service {
     
-    private func authTokenRequest(code: String) -> URLRequest { // Структура POST запроса согласно API
+    private func authTokenRequest(code: String) -> URLRequest {
         URLRequest.makeHTTPRequest(
             path: "/oauth/token"
             + "?client_id=\(accessKey)"
@@ -64,7 +63,7 @@ extension OAuth2Service {
             baseURL: URL(string: "https://unsplash.com")!
         ) }
     
-    private struct OAuthTokenResponseBody: Decodable { // Структура ответа POST запросу согласно API
+    private struct OAuthTokenResponseBody: Decodable {
         let accessToken: String
         let tokenType: String
         let scope: String
@@ -79,7 +78,7 @@ extension OAuth2Service {
     
     private func object(for request: URLRequest, completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void
     ) -> URLSessionTask {
-        return urlSession.objectTask(for: request, completion: { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+        return urlSession.objectTask(for: request, completion: { (result: Result<OAuthTokenResponseBody, Error>) in
             switch result {
             case .success(let body):
                 completion(.success(body))

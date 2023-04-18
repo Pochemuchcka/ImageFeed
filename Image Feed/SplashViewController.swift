@@ -100,7 +100,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .success(let profile):
                 UIBlockingProgressHUD.dismiss()
                 self.fetchProfileImage(token: token, username: profile.username)
-                let profile = profile.username
+                _ = profile.username
                 self.switchToTabBarController()
             case .failure:
                 UIBlockingProgressHUD.dismiss()
